@@ -1,6 +1,5 @@
-const { ObjectId } = require('mongoose').Types;
-// const { builtinModules } = require('module');
-const { User, Thought} = require("../models")
+
+const { User} = require("../models")
 
 
 
@@ -78,7 +77,7 @@ catch  (error){
 
     async addFriend(req,res) {
         try {
-            const addFriend = await User.findOneAndUpdate({_id:req.params.userId},{$addToSet: {friends: req.params.friendId}},{ runValidators: true, new: true });
+            const addFriend = await User.findOneAndUpdate({_id:req.params.userId},{$addToSet: {friends: req.params.friendId}});
             if (!addFriend) {
                 return res.status(404).json({message: "friend not found"});
             }
@@ -90,13 +89,11 @@ catch  (error){
         }
     },
     async removeFriend(req, res) {
-        console.log("in the remove friend");
-        console.log(req.params.userId);
-        console.log(req.params.friendId);
+  
         try {
             const delFriend = await User.findOneAndUpdate(
                 {_id:req.params.userId}, 
-                {$pull: {friends: req.params.friendId}},{runValidators: true, new:true});
+                {$pull: {friends: req.params.friendId}});
 
                 console.log(delFriend);
 
@@ -106,6 +103,7 @@ catch  (error){
             res.json(delFriend);
         }
         catch (error) {
+            console.log(error);
             res.status(500).json(error);
         }
 

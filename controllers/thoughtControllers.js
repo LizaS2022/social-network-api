@@ -47,19 +47,19 @@ module.exports = {
 
     async updateThoughtInfo(req,res){
         console.log("in the update thought function")
-try{
-    const thought = await Thought.findOneAndUpdate({_id:req.params.thoughtId}, req.body, { runValidators: true, new: true })
+        try{
+            const thought = await Thought.findOneAndUpdate({_id:req.params.thoughtId}, req.body, { runValidators: true, new: true })
 
-    if (!thought){
-        return res.status(404).json({message: "No thought found with that id"});
-    }
-    res.json(thought)
-}
-catch  (error){
-    console.log(error);
-    res.status(500).json(error);
-    
-}
+            if (!thought){
+                return res.status(404).json({message: "No thought found with that id"});
+            }
+            res.json(thought);
+        }
+        catch  (error){
+            console.log(error);
+            res.status(500).json(error);
+            
+        }
     },
 
     async deleteThought(req,res){
@@ -68,7 +68,7 @@ catch  (error){
             if (!delThought){
                 return res.status(404).json({message: "Thought not found"});
             }
-            res.json(delThought)
+            res.json(delThought);
         }
         catch (error){
             res.status(500).json(error);
@@ -78,7 +78,7 @@ catch  (error){
     async createReaction(req,res) {
         try {
             
-            const addReaction = await Thought.findOneAndUpdate({_id:req.params.thoughtId},{$addToSet: {reactions: req.body.reactionBody}},{ runValidators: true, new: true });
+            const addReaction = await Thought.findOneAndUpdate({_id:req.params.thoughtId},{$addToSet: {reactions: req.body}},{ runValidators: true, new: true });
             if (!addReaction) {
                 return res.status(404).json({message: "reaction not found"});
             }
@@ -88,12 +88,27 @@ catch  (error){
         catch (error){
             console.log(error);
                     res.status(500).json(error);
-                
+        }
+    },
+
+    async removeReaction(req, res) {
+        try {
+            const delReaction = await Thought.findOneAndUpdate(
+                {_id:req.params.thoughtId}, 
+                {$pull: {reactions: {reactionId: req.params.reactionId}}},
+                {runValidators: true, new:true});
+
+                console.log(delReaction);
+
+            if (!delReaction) {
+                return res.status(404).json({message: "no reaction found with that id"});
+            }
+            res.json(delReaction);
+        }
+        catch (error) {
+            res.status(500).json(error);
         }
 
     }
-
-
-
-
 }
+
