@@ -30,7 +30,6 @@ module.exports = {
 
     async getSingleThought(req,res){
         try{
-            console.log("in the single thought functions function")
             const singleThought = await Thought.findOne({_id:req.params.thoughtId})
             .select('-__v');
 
@@ -40,13 +39,11 @@ module.exports = {
             res.json(singleThought);
         }
         catch (error){
-            console.log(error);
             return res.status(500).json(error);
         }
     },
 
     async updateThoughtInfo(req,res){
-        console.log("in the update thought function")
         try{
             const thought = await Thought.findOneAndUpdate({_id:req.params.thoughtId}, req.body, { runValidators: true, new: true })
 
@@ -56,7 +53,6 @@ module.exports = {
             res.json(thought);
         }
         catch  (error){
-            console.log(error);
             res.status(500).json(error);
             
         }
@@ -86,7 +82,6 @@ module.exports = {
         }
         
         catch (error){
-            console.log(error);
                     res.status(500).json(error);
         }
     },
@@ -97,8 +92,6 @@ module.exports = {
                 {_id:req.params.thoughtId}, 
                 {$pull: {reactions: {reactionId: req.params.reactionId}}},
                 {runValidators: true, new:true});
-
-                console.log(delReaction);
 
             if (!delReaction) {
                 return res.status(404).json({message: "no reaction found with that id"});

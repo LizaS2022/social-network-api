@@ -7,19 +7,16 @@ module.exports = {
     // get all users
     async getUsers(req,res){
         try {
-            console.log(" in the get users function")
             const users = await User.find();
       
             res.json(users);
           } catch (err) {
-            console.log(err);
             return res.status(500).json(err);
           }
     },
 
     async getSingleUser(req,res){
         try{
-            console.log("in the single user functions function")
             const singleUser = await User.findOne({_id:req.params.userId})
             .select('-__v');
 
@@ -29,13 +26,11 @@ module.exports = {
             res.json(singleUser);
         }
         catch (error){
-            console.log(error);
             return res.status(500).json(error);
         }
     },
 
     async createUser(req,res){
-        console.log("in the create function")
         try {
             const newUser = await User.create(req.body);
             res.json(newUser);
@@ -46,7 +41,6 @@ module.exports = {
     },
 
     async updateUserInfo(req,res){
-        console.log("in the update function")
 try{
     const user = await User.findOneAndUpdate({_id:req.params.userId}, req.body, { runValidators: true, new: true })
 
@@ -56,7 +50,6 @@ try{
     res.json(user)
 }
 catch  (error){
-    console.log(error);
     res.status(500).json(error);
     
 }
@@ -84,7 +77,6 @@ catch  (error){
             res.json(addFriend);
         }
         catch (error){
-            console.log(error);
             res.status(500).json(error);
         }
     },
@@ -95,15 +87,12 @@ catch  (error){
                 {_id:req.params.userId}, 
                 {$pull: {friends: req.params.friendId}});
 
-                console.log(delFriend);
-
             if (!delFriend) {
                 return res.status(404).json({message: "no user found with that id"});
             }
             res.json(delFriend);
         }
         catch (error) {
-            console.log(error);
             res.status(500).json(error);
         }
 
