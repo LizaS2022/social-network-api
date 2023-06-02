@@ -37,4 +37,5 @@ Licensed under the [MIT](http://choosealicense.com/licenses/mit/) license.
 ## Questions
 
 [The URL of the GitHub profile](https://github.com/LizaS2022).
-For additional questions, dont hesitate to contact me at .
+
+[The link to the video walkthrough demonstrating the functionality of the application](https://drive.google.com/file/d/1jWp7syWw7apoK6Xx6AJzO4AKlG31RL9f/view).
